@@ -40,13 +40,42 @@
 </head>
 
 <body>
+ <?php include("./inc/header.php"); ?>
     <div class="container">
     <br><br>
-    <form>
+    
+    <!-- <?php if(strlen($response) > 0): ?>
+        <?php if($response== "Account Created"): ?>
+            <div class="alert alert-dismissible alert-success">
+             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <?php 
+        echo $response;
+    ?>
+    </div>
+        <?php else: ?>       
+            <div class="alert alert-dismissible alert-danger">
+             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <?php 
+        echo $response;
+    ?>
+    </div>
+        <?php endif; ?>
+
+    <?php endif; ?> -->
+   
+    <div id="alertbox" hidden="true">
+     <div class="alert alert-dismissible alert-success">
+             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+   <p style="display:inline"></p>
+    </div>
+    </div>
+    <form id="signup_form">
 
         <div class="form-group">
+
+      <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username" required><br>
       <!-- <label for="StudentEmail" class="form-label mt-4">Student Email address</label> -->
-      <input type="email" class="form-control" id="StudentEmail" aria-describedby="emailHelp" placeholder="Enter Student email">
+      <input type="email" class="form-control" id="StudentEmail" aria-describedby="emailHelp" placeholder="Enter Student email" required>
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
     <br>
@@ -55,16 +84,47 @@
       <input type="password" class="form-control" id="StudentPassword" placeholder="Password">
     </div>
     <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button id="button" type="button" value="Signup" class="btn btn-primary">Sign Up</button>
     <div id="forgotandlogin">
         <p>Forgot Password</p>
         <p>Sign in</p>
     </div>
     </form>
-
-    
     </div>
-    
+    <script>
+        document.querySelector("#button").addEventListener('click',adduser);
+        function adduser(){
+            let username = document.querySelector("#username").value;
+            let email = document.querySelector("#StudentEmail").value;
+            let pass = document.querySelector("#StudentPassword").value;
+            let data = "email="+window.encodeURIComponent(email)
+            + "&password="+window.encodeURIComponent(pass)
+            + "&username="+window.encodeURIComponent(username);
+            
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST","./addAccount.php",true);
+
+            xhr.onload=function(){
+                
+                // alert(this.responeText.length);
+                console.log(this.responseText);
+                document.querySelector("#alertbox").removeAttribute("hidden");
+                if(this.responseText == "Account Created"){
+                    document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-success");
+                }else{
+                    document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-danger");
+                }
+                document.querySelector("#alertbox p").textContent = this.responseText; 
+            }
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");            
+            xhr.send(data);
+        }
+
+        document.querySelector("#alertbox button").addEventListener('click',function(){
+            document.querySelector("#alertbox").setAttribute("hidden",true);
+        });
+    </script>
 </body>
 
 
