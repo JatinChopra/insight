@@ -1,7 +1,45 @@
 <?php
 
     $username = "";
-    if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username']) && $_POST['username'] != "" && $_POST['email'] != "" && $_POST['password'] !=""){
+    $response ="";
+
+
+    // for handling sing in requests 
+    if(isset($_POST['password']) && isset($_POST['username']) && $_POST['username'] != "" && $_POST['password'] !="" && isset($_POST['req']) && $_POST['req'] != "" && $_POST['req'] == "Sign In"){
+        try{
+        $conn = new mysqli("localhost","bob","pass","insight");
+        if(!$conn){
+            die();
+        }
+        // $hashed = password_hash(htmlentities($_POST['password']),PASSWORD_BCRYPT);
+        $uname = $_POST['username'];
+        $sql = "SELECT * from users where username='$uname'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $original_pass = $row['passphrase'];
+
+
+        if (password_verify($_POST['password'], $original_pass)) {
+            echo 'Password is valid!';
+        } else {
+            echo 'Invalid password.';
+        }
+        
+        // foreach ($row as $key => $value){
+        // echo '<<<'.$row['passphrase'].'>>>>>>>';
+        
+        // }
+        // if($result->num_rows == 1){
+        //     $response = "found user , logging in.";
+        // }else{
+        //     $response = "wrong username or password.";
+        // }
+        }catch(Exception $e){echo $e;}
+        echo $response;
+    }
+
+    // for handling sign up requests  
+    else if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username']) && $_POST['username'] != "" && $_POST['email'] != "" && $_POST['password'] !="" && isset($_POST['req']) && $_POST['req'] != "" && $_POST['req'] == "Sign Up"){
         $username = $_POST['username'];
         $email = htmlentities($_POST['email']);
         $pass = htmlentities($_POST['password']);
@@ -15,7 +53,7 @@
         $username = preg_replace($pattern, '', (string) $username);
         
 
-        $response="nosuccess";
+        // $response="nosuccess";
         // echo $username;
 
         if($username == ""){ 
@@ -30,13 +68,15 @@
                 if(strlen($pass) >=8){
                     // password & email both are ok 
                     // add them to db
-                    $response = "Account Created";
-                    echo $username;
-                    echo $filtered_email;
+                    // $response = "Account Created";
+                    // echo $username;
+                    // echo $filtered_email;
                     $hashedpass = password_hash($pass,PASSWORD_BCRYPT);
-                    echo $hashedpass;
+                    $activationCode = hash('crc32',$username);
+                    // echo $hashedpass;
 
-                    addtoDb($username, $filtered_email,$hashedpass);
+                    addtoDb($username, $filtered_email,$hashedpass,$activationCode);
+                    // sendActivationEmail($filtered_email, $activationCode);
 
 
 
@@ -51,46 +91,78 @@
         }else{
             $response ="SAP ID or org. name invalid.";
         }
+        echo $response;
     }else{
         // provide the data befor submitting
         // email & passwrod field not set  
         $response = "Please provide valid input.";
-
+        echo $response;
     }
- if(!filter_has_var(INPUT_POST,'password') &&  !filter_has_var(INPUT_POST,'email') && !filter_has_var(INPUT_POST,'username') ){
-             $response ="";
-             echo $response;
-        }else{
-            echo $response;
-        }
-   
+
+
+//  if(!filter_has_var(INPUT_POST,'password') &&  !filter_has_var(INPUT_POST,'email') && !filter_has_var(INPUT_POST,'username') ){
+//              $response ="";
+//              echo $response;
+//         }else{
+//             echo $response;
+//         }
 
     // for adding database to db
-    function addtoDb($username,$email,$pass){
+    function addtoDb($username,$email,$pass,$acode){
         // creating a connection
-        $mysqli = new mysqli("localhost","bob","pass","insight");
-
-        // Check connection
-        if ($mysqli -> connect_errno) {
-        echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-        exit();
+        // $conn = new mysqli("localhost","id20222037_bob","P@ssword000_","id20222037_insight"); // for webhost
+        $conn = new mysqli("localhost","bob","pass","insight"); // for localhost
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
         }
 
-
-        // $sql = "SELECT * FROM users";
-        // $result = mysqli_query($conn, $sql);
-
-        // if (mysqli_num_rows($result) > 0) {
-        //     // output data of each row
-        //     while($row = mysqli_fetch_assoc($result)) {
-        //         echo "id: " . $row["id"]. " - Name: " . $row["username"]. " " . $row["email"]. " ".$row["password"]." ". $row["activated"]."<br>";
-        //     }
-        // } else {
-        //         echo "0 results";
+        // Check connection
+        // if ($conn -> connect_errno) {
+        // echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+        // exit();
         // }
 
-mysqli_close($mysqli);
+
+        
+    try{
+        $sql0 = "SELECT username from users where username='$username';";
+
+        $result = mysqli_query($conn,$sql0);
+        if(mysqli_num_rows($result) > 0){
+            $response = "The username had already been taken.";
+        }else{
+
+        $sql = "INSERT INTO users (username, email, passphrase, activated, activationCode) VALUES ('$username','$email','$pass',0,'$acode');";
+
+        if (mysqli_query($conn, $sql)) {
+            // Add the new record and send activation email
+            // echo "New record created successfully";
+             $response ="";
+             sendActivationEmail($email,$acode);   
+
+        } else {
+            // echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            $response = "Please wait ....".mysqli_error($conn);
+        }
+        }
+        echo $response;
+    }catch(Exception $e){
+        echo $e;
+    }
+        mysqli_close($conn);
+}
 
 
+    function sendActivationEmail($to, $acode){
+        try{
+
+$subject = "Activation Code";
+$acode = "Activation code : ".$acode;
+
+
+mail($to,$subject,$acode);
+        }catch(Exception $e){ echo $e; }
+        $response = "Activation Code Send. Please paste the code in the below field to activae your account.";
+        echo $response;
     }
 ?>
