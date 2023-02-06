@@ -50,6 +50,7 @@
     // for handling sign up requests  
     else if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username']) && $_POST['username'] != "" && $_POST['email'] != "" && $_POST['password'] !="" && isset($_POST['req']) && $_POST['req'] != "" && $_POST['req'] == "Sign Up"){
         $username = $_POST['username'];
+        // $username = htmlentities($_POST['username']);
         $email = htmlentities($_POST['email']);
         $pass = htmlentities($_POST['password']);
         $filtered_email = filter_var($email, FILTER_SANITIZE_EMAIL);

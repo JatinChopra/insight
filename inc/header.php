@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark"
     style="position:fixed; top:0;margin-right:0; margin-left:0; width:100%;"
 >
@@ -8,6 +7,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor02">
+
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link active" href="/index.php">Home 
@@ -23,6 +23,16 @@
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>
         </li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </div>
+        </li>
       </ul>
         <form class="d-flex">
          <?php if(isset($_SESSION['user'])) :?>
@@ -33,26 +43,6 @@
             <?php endif;?>
             
       </form>
-      <!-- <form class="d-flex">
-        <input class="form-control me-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-         <ul class="navbar-nav me-medium">
-        
-        
-       
-          <li class="nav-item">
-          <a class="nav-link" href="#">Log Out</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" href="/myaccount.php">My Account
-          </a>
-        </li>
-    
-           <a class="nav-link" href="/login.php?q=login">Log In</a>
-          </a>
-     
-        </ul>
-      </form> -->
     </div>
   </div>
 </nav>

@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php session_start(); 
+    $conn = new mysqli("localhost","bob","pass","insight");
+
+    if(!$conn){
+      die();
+    }
+
+    $sql = "SELECT * FROM posts";
+    $result = $conn->query($sql);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +59,7 @@
           margin-left:auto;
           margin-right:auto;
           max-height:350px;
+          margin-bottom:1rem;
           /* max-height:500px; */
         }
 
@@ -65,13 +76,12 @@
     
         @media (max-width:470px) {
           .card{
-            width:100%;
-            margin: 0 ;
+            width:97%;
+            margin-bottom: 0.5rem;
             padding:0;
+            /* border-radius:0; */
           }
-          .feedscontainer{
-            align-items:stretch;
-          }
+          
         }
     </style>
 </head>
@@ -89,58 +99,30 @@
 <div class="feedscontainer">
     <div class="scroller">
 
-      <div class="card bg-dark mb-3" >
-        <div class="card-header">user_one</div>
+
+      <?php foreach($result as $res): ?>
+      <div class="card bg-dark" >
+      <?php
+          $id = $res['id'];
+          $heading = $res['heading'];
+          $desc = $res['postdesc'];
+          $sq0 = "select * from users where id=$id;";
+          $result = $conn->query($sq0);
+          $row = $result->fetch_assoc();
+          $username = $row['username'];
+      ?>
+        <div class="card-header"><?php echo $username ?></div>
         <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h4 class="card-title"><?php echo $heading ?></h4>
+            <p class="card-text"><?php echo $desc ?></p>
         </div>
       </div>
-
-      <div class="card bg-dark mb-3" >
-        <div class="card-header">user_two</div>
-        <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-
-      <div class="card bg-dark mb-3" >
-        <div class="card-header">user_three</div>
-        <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-      <div class="card bg-dark mb-3" >
-        <div class="card-header">user_one</div>
-        <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-      <div class="card bg-dark mb-3" >
-        <div class="card-header">user_two</div>
-        <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-
-      <div class="card bg-dark mb-3" >
-        <div class="card-header">user_three</div>
-        <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-
-
+      <?php endforeach;?>
+      
     </div>
+    <?php
+      
+    ?>
 </div>
 
 </body>

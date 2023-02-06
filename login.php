@@ -174,20 +174,7 @@
                     window.location = '/'+data[1];
                 }
                 
-                // document.querySelector("#alertbox").removeAttribute("hidden");
-                // if(this.responseText == "Activation Code Send. Please paste the code in the below field to activae your account."){
-                //     document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-success");
-                //     userName.setAttribute('hidden',"true");
-                //     studentEmail.setAttribute('hidden',"true");
-                //     passphrase.setAttribute('hidden',"true");
-                //     document.querySelector('#acode').removeAttribute('hidden');
-                //     emailHelp.setAttribute('hidden','true');
-                //     submitbutton.textContent="Activate";
-
-                // }else{
-                //     document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-danger");
-                // }
-                // document.querySelector("#alertbox p").textContent = this.responseText; 
+          
             }
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");            
             xhr.send(data);       
@@ -207,7 +194,7 @@
                 }else{
                     document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-danger");
                 }
-                document.querySelector("#alertbox p").textContent = this.responseText; 
+                document.querySelector("#alertbox p").textContent = this.responseText + " Now you can sign in and create posts."; 
             }
 
             xhr.send();
@@ -252,9 +239,6 @@
             xhr.send(data);
         }
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
 
 
 
