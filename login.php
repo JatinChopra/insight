@@ -93,12 +93,13 @@
     <button id="button" type="button" value="Signup" class="btn btn-primary">Sign Up</button>
     <div id="forgotandlogin">
     <button id="forgotlink" type="button" class="btn btn-link" style="margin:0; padding:0; text-align:left;">Forgot Password</button>
-    <button id="signinlink" type="button" class="btn btn-link"  style="margin:0; padding:0; text-align:right;">Sign in</button>
+    <button id="signinlink" type="button" class="btn btn-link"  style="margin:0; padding:0; text-align:right;">Sign In</button>
   
     </div>
     </form>
     </div>
     <script>
+
         let submitbutton = document.querySelector("#button");
         let signinlink = document.querySelector("#signinlink")
         let alertboxbutton = document.querySelector("#alertbox button");
@@ -115,6 +116,12 @@
             document.querySelector("#alertbox").setAttribute("hidden",true);
         });
 
+        <?php if(isset($_GET['q']) && $_GET['q'] == 'login'):?>
+            switchToLogin();
+        <?php endif;?>
+
+
+
         function selectFunction(){
             let submitText = submitbutton.textContent;
             if(submitText == "Sign Up"){
@@ -129,9 +136,17 @@
 
 
         function switchToLogin(){
+            console.log(signinlink.textContent);
+            if(signinlink.textContent == "Sign In"){
             studentEmail.setAttribute('hidden','true');
             emailHelp.setAttribute('hidden','true');
             submitbutton.textContent="Sign In";
+            signinlink.textContent="Sign Up";}else{
+            studentEmail.removeAttribute('hidden');
+            emailHelp.removeAttribute('hidden');
+            submitbutton.textContent="Sign Up";
+            signinlink.textContent="Sign In";
+            }
 
         }
 
@@ -149,9 +164,16 @@
             xhr.open("POST","./addAccount.php",true);
 
             xhr.onload=function(){
+                let data = JSON.parse(this.responseText);
+                console.log(data[0]);
+                if(data[1] === ''){
+                    document.querySelector("#alertbox").removeAttribute('hidden');
+                     document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-danger");
+                     document.querySelector("#alertbox p").textContent = data[0]; 
+                }else{
+                    window.location = '/'+data[1];
+                }
                 
-                // alert(this.responeText.length);
-                console.log(this.responseText);
                 // document.querySelector("#alertbox").removeAttribute("hidden");
                 // if(this.responseText == "Activation Code Send. Please paste the code in the below field to activae your account."){
                 //     document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-success");
@@ -229,6 +251,11 @@
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");            
             xhr.send(data);
         }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
 
 
         

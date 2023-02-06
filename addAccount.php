@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
     $username = "";
     $response ="";
 
@@ -20,9 +20,18 @@
 
 
         if (password_verify($_POST['password'], $original_pass)) {
-            echo 'Password is valid!';
+            $_SESSION['user'] = $uname;
+            $data = array("Invalid Password or username.","index.php");
+            $data = json_encode($data);
+            echo $data;
+            // echo 'Password is valid!';
+            // header('location: index.php');
+            // header('Location: index.php');
         } else {
-            echo 'Invalid password.';
+            $data = array('Invalid Password or username.','');
+            $data = json_encode($data);
+            echo $data;
+
         }
         
         // foreach ($row as $key => $value){
