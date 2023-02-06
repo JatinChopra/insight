@@ -56,12 +56,23 @@
           padding-top: 20px;
           padding-bottom:0;
           border-bottom:none;
+          margin:0;
         }
 
         .card-body{
           padding-top:15px;
         }
     
+        @media (max-width:470px) {
+          .card{
+            width:100%;
+            margin: 0 ;
+            padding:0;
+          }
+          .feedscontainer{
+            align-items:stretch;
+          }
+        }
     </style>
 </head>
 
