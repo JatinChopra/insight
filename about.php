@@ -112,6 +112,11 @@ We understand that speaking up can be difficult, especially when you're worried 
 
 <p class="text">At UPESInsight, we want to empower students to be heard. We believe that your thoughts and opinions matter, and we're here to help you share them with the world. So log in, share your voice, and let's make UPES a better place for everyone!</p>
 
+<p class="heading">💡 Got Suggestions? 💡</p>
+
+<p class="text">
+We're always looking for ways to improve UPESInsight and make it a better experience for our users. If you have any suggestions or ideas for how we can do that, please feel free to post them on the website or send us an email at upesinsight@gmail.com .  We value your feedback and appreciate your help in making UPESInsight the best it can be!
+</p>
 <p class="heading">🎓 Join the Community Today! 🎓</p>
 
 
