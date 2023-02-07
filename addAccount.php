@@ -5,7 +5,10 @@
 
 
     // for handling sing in requests 
-    if(isset($_POST['password']) && isset($_POST['username']) && $_POST['username'] != "" && $_POST['password'] !="" && isset($_POST['req']) && $_POST['req'] != "" && $_POST['req'] == "Sign In"){
+    if($_POST['req'] == "Sign In" && !isset($_POST['password'])){
+        echo "no password";
+    }
+    elseif(isset($_POST['password']) && isset($_POST['username']) && $_POST['username'] != "" && $_POST['password'] !="" && isset($_POST['req']) && $_POST['req'] != "" && $_POST['req'] == "Sign In"){
         try{
         $conn = new mysqli("localhost","bob","pass","insight");
         if(!$conn){
@@ -136,10 +139,13 @@
         
     try{
         $sql0 = "SELECT username from users where username='$username';";
-
+        $sql1 = "SELECT * from users where email='$email';";
         $result = mysqli_query($conn,$sql0);
+        $result2 = mysqli_query($conn,$sql1);
         if(mysqli_num_rows($result) > 0){
             $response = "The username had already been taken.";
+        } elseif (mysqli_num_rows($result2) > 0){
+            $response = "The email is already in use.";
         }else{
 
         $sql = "INSERT INTO users (username, email, passphrase, activated, activationCode) VALUES ('$username','$email','$pass',0,'$acode');";

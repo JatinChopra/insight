@@ -28,8 +28,9 @@
                 }
 
         }
-        .btn{
+        #button{
             width:100%;
+            border:none;
         }
         #forgotandlogin{
             display:flex;
@@ -43,28 +44,8 @@
 </head>
 
 <body>
- <?php include("./inc/header.php"); ?>
     <div class="container">
     <br><br>
-    
-    <!-- <?php if(strlen($response) > 0): ?>
-        <?php if($response== "Account Created"): ?>
-            <div class="alert alert-dismissible alert-success">
-             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <?php 
-        echo $response;
-    ?>
-    </div>
-        <?php else: ?>       
-            <div class="alert alert-dismissible alert-danger">
-             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <?php 
-        echo $response;
-    ?>
-    </div>
-        <?php endif; ?>
-
-    <?php endif; ?> -->
    
     <div id="alertbox" hidden="true">
      <div class="alert alert-dismissible alert-success">
@@ -90,7 +71,7 @@
       <input type="text" class="form-control" id="acodeinp" placeholder="Activation Code">
     </div>
     <br>
-    <button id="button" type="button" value="Signup" class="btn btn-primary">Sign Up</button>
+    <button id="button" type="button" value="Signup" class="btn btn-primary wrapper">Sign Up</button>
     <div id="forgotandlogin">
     <button id="forgotlink" type="button" class="btn btn-link" style="margin:0; padding:0; text-align:left;">Forgot Password</button>
     <button id="signinlink" type="button" class="btn btn-link"  style="margin:0; padding:0; text-align:right;">Sign In</button>
@@ -164,6 +145,11 @@
             xhr.open("POST","./addAccount.php",true);
 
             xhr.onload=function(){
+            if(this.responseText == 'Please provide valid input.'){
+                document.querySelector("#alertbox").removeAttribute('hidden');
+                     document.querySelector("#alertbox>div").setAttribute("class","alert alert-dismissible alert-danger");
+                     document.querySelector("#alertbox p").textContent = this.responseText; 
+            }else{
                 let data = JSON.parse(this.responseText);
                 console.log(data[0]);
                 if(data[1] === ''){
@@ -174,7 +160,7 @@
                     window.location = '/'+data[1];
                 }
                 
-          
+            }
             }
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");            
             xhr.send(data);       

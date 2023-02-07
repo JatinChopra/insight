@@ -1,48 +1,65 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
-    style="position:fixed; top:0;margin-right:0; margin-left:0; width:100%;"
->
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">UPESInsight</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor02">
+<style>
+.wrapper {
+    display:flex;
+    justify-content: center;
+    width: 164.25px;
+    height: 42.9px;
+    border-radius: 12px;
+    /* position: absolute; */
+    background: linear-gradient(45deg,#F17C58, #E94584, #24AADB , #27DBB1);
+    background-size: 200% 200%;
+    animation: gradient 10s linear infinite;
+    animation-direction: alternate;
+    text-align: center;
+    align-items: center;
+}
+/* @keyframes gradient {
+    0% {background-position: 0%}
+    100% {background-position: 100%}
+} */
 
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="/index.php">Home 
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </li>
-      </ul>
-        <form class="d-flex">
-         <?php if(isset($_SESSION['user'])) :?>
-        <a href="/myaccount.php"  class="btn btn-secondary my-2 my-sm-0" style=" margin-left:20px;">My Account</a>
-        <a href="/logout.php"  class="btn btn-secondary my-2 my-sm-0" style="margin-right:20px; margin-left:20px;">Log Out</a>
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+</style>
+<div style="position:absolute; z-index:20; top:0;margin-right:0; margin-left:0; width:100%; justify-content:space-between; padding:18px 24px;  display:flex;">
+
+    <a class="dropdown-toggle btn btn-secondary my-2 my-sm-0 wrapper" style=" border:none;margin-right:20px; margin-left:10px;" >UPES Insight</a>
+    <div class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(35px, 85px);" data-popper-placement="bottom-start">
+      <a class="dropdown-item" href="./index.php">Home</a>
+      <a class="dropdown-item" href="./posts.php">Posts</a>
+      <a class="dropdown-item" href="./about.php">About</a>
+        <?php if(isset($_SESSION['user'])) :?>
+        <a href="/myaccount.php"  class="dropdown-item">My Account</a>
+        <a href="/logout.php"  class="dropdown-item" >Log Out</a>
             <?php else:?>
-            <a href="/login.php?q=login" style="margin-right:20px; margin-left:20px;" class="btn btn-secondary my-2 my-sm-0">Log In</a>
+            <a href="/login.php?q=login" class="dropdown-item">Log In</a>
             <?php endif;?>
-            
-      </form>
+    
     </div>
-  </div>
-</nav>
+</div>
+
+<script>
+  document.querySelector(".dropdown-toggle").addEventListener('click',toggleMenu);
+
+  function toggleMenu(){
+    if(document.querySelector(".dropdown-menu").classList.contains('show')){
+        console.log("show");
+        document.querySelector(".dropdown-menu").classList.remove("show");  
+    }else{
+      console.log('hide');
+    document.querySelector(".dropdown-menu").classList.add("show");
+  }
+  
+  }
+
+</script>

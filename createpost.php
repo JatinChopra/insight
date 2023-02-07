@@ -13,6 +13,9 @@
         h1{
             padding-top:80px;
         }
+        body{
+            height:100vh;
+        }
     </style>
 </head>
 
@@ -53,10 +56,6 @@
         let description = document.querySelector("#description").value;
         let uname = "<?php echo $_SESSION['user']; ?>";
 
-        console.log(heading);
-        console.log(description);
-        console.log(uname);
-        
         let data = "heading="+window.encodeURIComponent(heading)    
         +"&description="+window.encodeURIComponent(description)
         +"&uname="+window.encodeURIComponent(uname);
