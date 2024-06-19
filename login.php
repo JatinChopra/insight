@@ -60,7 +60,7 @@
       <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username" required><br>
       <!-- <label for="StudentEmail" class="form-label mt-4">Student Email address</label> -->
       <input type="email" class="form-control" id="StudentEmail" aria-describedby="emailHelp" placeholder="Enter Student email" required>
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. Never </small>
     </div>
     <br>
     <div class="form-group">
