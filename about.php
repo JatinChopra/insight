@@ -106,7 +106,7 @@ We understand that speaking up can be difficult, especially when you're worried 
 </p>
 <p class="heading">💬 Join the Conversation 💬</p>
 
-<p class="text">At UPESInsight, we believe that the student community is stronger when we come together. So don't be shy, join the conversation and share your thoughts and opinions. Let's create a community where we can all benefit from each other's experiences and insights.</p>
+<p class="text">At UPESInsight okay, we believe that the student community is stronger when we come together. So don't be shy, join the conversation and share your thoughts and opinions. Let's create a community where we can all benefit from each other's experiences and insights.</p>
 
 <p class="heading">💥 Get Your Voice Heard 💥</p>
 
